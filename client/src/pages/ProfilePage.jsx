@@ -79,7 +79,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Skills & Interests */}
-        {user.skills?.length > 0 && (
+        {Array.isArray(user.skills) && user.skills.length > 0 && (
           <div style={{ marginTop: 16 }}>
             <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text3)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Skills</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -87,7 +87,7 @@ export default function ProfilePage() {
             </div>
           </div>
         )}
-        {user.interests?.length > 0 && (
+        {Array.isArray(user.interests) && user.interests.length > 0 && (
           <div style={{ marginTop: 12 }}>
             <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text3)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>Interests</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>

@@ -7,11 +7,14 @@ import { formatDistanceToNow } from 'date-fns';
 
 export default function PostCard({ post, onDelete }) {
   const { user } = useAuth();
-  const [liked, setLiked] = useState(post.likes?.includes(user?._id));
-  const [likes, setLikes] = useState(post.likes?.length || 0);
-  const [saved, setSaved] = useState(post.savedBy?.includes(user?._id));
+  const postLikes = Array.isArray(post.likes) ? post.likes : [];
+  const postSavedBy = Array.isArray(post.savedBy) ? post.savedBy : [];
+  const postComments = Array.isArray(post.comments) ? post.comments : [];
+  const [liked, setLiked] = useState(postLikes.includes(user?._id));
+  const [likes, setLikes] = useState(postLikes.length);
+  const [saved, setSaved] = useState(postSavedBy.includes(user?._id));
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState(post.comments || []);
+  const [comments, setComments] = useState(postComments);
   const [commentText, setCommentText] = useState('');
   const [posting, setPosting] = useState(false);
 
@@ -75,7 +78,7 @@ export default function PostCard({ post, onDelete }) {
       <p style={{ color: 'var(--text2)', lineHeight: 1.6, fontSize: 15, whiteSpace: 'pre-wrap' }}>{post.content}</p>
 
       {/* Tags */}
-      {post.tags?.length > 0 && (
+      {Array.isArray(post.tags) && post.tags.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12 }}>
           {post.tags.map(tag => <span key={tag} className="tag">#{tag}</span>)}
         </div>
