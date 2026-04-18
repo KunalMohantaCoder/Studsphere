@@ -10,7 +10,7 @@ export function useSocket() {
 
   useEffect(() => {
     if (user && !initialized.current) {
-      socket = io('http://localhost:5000', { withCredentials: true });
+      socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000', { withCredentials: true });
       socket.emit('user:online', user._id);
       initialized.current = true;
     }
