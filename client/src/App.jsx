@@ -10,6 +10,24 @@ import MessagesPage from './pages/MessagesPage';
 import NotificationsPage from './pages/NotificationsPage';
 import FocusCornerPage from './pages/FocusCornerPage';
 import SavedPage from './pages/SavedPage';
+import { Component } from 'react';
+
+class ErrorBoundary extends Component {
+  state = { error: null };
+  static getDerivedStateFromError(error) { return { error }; }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', fontFamily: 'sans-serif', gap: 12 }}>
+          <h2>Something went wrong</h2>
+          <pre style={{ color: 'red', fontSize: 12 }}>{this.state.error.message}</pre>
+          <button onClick={() => window.location.reload()} style={{ padding: '8px 16px', cursor: 'pointer' }}>Reload</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -25,24 +43,26 @@ function PublicRoute({ children }) {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<PublicRoute><AuthPage /></PublicRoute>} />
-            <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
-              <Route index element={<HomePage />} />
-              <Route path="explore" element={<ExplorePage />} />
-              <Route path="profile/:id" element={<ProfilePage />} />
-              <Route path="messages" element={<MessagesPage />} />
-              <Route path="messages/:userId" element={<MessagesPage />} />
-              <Route path="notifications" element={<NotificationsPage />} />
-              <Route path="focus" element={<FocusCornerPage />} />
-              <Route path="saved" element={<SavedPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/auth" element={<PublicRoute><AuthPage /></PublicRoute>} />
+              <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
+                <Route index element={<HomePage />} />
+                <Route path="explore" element={<ExplorePage />} />
+                <Route path="profile/:id" element={<ProfilePage />} />
+                <Route path="messages" element={<MessagesPage />} />
+                <Route path="messages/:userId" element={<MessagesPage />} />
+                <Route path="notifications" element={<NotificationsPage />} />
+                <Route path="focus" element={<FocusCornerPage />} />
+                <Route path="saved" element={<SavedPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
