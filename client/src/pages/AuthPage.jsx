@@ -63,15 +63,7 @@ export default function AuthPage() {
               <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text2)', display: 'block', marginBottom: 6 }}>Password</label>
               <input className="input" name="password" type="password" value={form.password} onChange={handle} placeholder="••••••••" required />
             </div>
-            {mode === 'signup' && (
-              <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '10px 12px', background: 'var(--bg2)', borderRadius: 8, fontSize: 14 }}>
-                <input type="checkbox" name="isFounder" checked={form.isFounder} onChange={handle} />
-                <div>
-                  <div style={{ fontWeight: 600 }}>I'm a founder / builder 🚀</div>
-                  <div style={{ fontSize: 12, color: 'var(--text3)' }}>Get the Founder badge on your profile</div>
-                </div>
-              </label>
-            )}
+            
             <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: '100%', justifyContent: 'center', padding: '12px', fontSize: 15, marginTop: 4 }}>
               {loading ? 'Please wait...' : mode === 'login' ? 'Log in' : 'Create account'}
             </button>
